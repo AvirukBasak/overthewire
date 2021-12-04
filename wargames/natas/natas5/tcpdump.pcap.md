@@ -9,7 +9,7 @@ Cookie: loggedin=0\r\n\r\n
 ```
 
 ### Response
-```\r
+```
 HTTP/1.1 200 OK\r
 Date: Wed, 01 Dec 2021 06:24:59 GMT\r
 Server: Apache/2.4.10 (Debian)\r
