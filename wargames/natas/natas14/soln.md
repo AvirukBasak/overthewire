@@ -15,7 +15,7 @@ password  123                               123
 
 ## Executed SQL
 ```SQL
-SELECT * from users where username="user" OR username LIKE "%" # " and password="123"
+SELECT * FROM users WHERE username="user" OR username LIKE "%" # " and password="123"
                                                                ~~~~~~~~~~~~~~~~~~~~~~ SQL comment
 ```
 
