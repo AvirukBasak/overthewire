@@ -21,7 +21,7 @@
         if (array_key_exists("username", $_REQUEST)) {
             $link = mysql_connect('localhost', 'natas14', '<censored>');
             mysql_select_db('natas14', $link);
-            $query = "SELECT * from users where username=\"" . $_REQUEST["username"] . "\" and password=\"" . $_REQUEST["password"] . "\"";
+            $query = "SELECT * FROM users WHERE username=\"" . $_REQUEST["username"] . "\" AND password=\"" . $_REQUEST["password"] . "\"";
             if (array_key_exists("debug", $_GET)) {
                 echo "Executing query: $query<br>";
             }
