@@ -14,6 +14,8 @@ password  123                               123
 ```
 
 ## Executed SQL
+This code, on execution, returns a table of all users, where there are
+more than 0 rows.
 ```SQL
 SELECT * FROM users WHERE username="user" OR username LIKE "%" # " and password="123"
                                                                ~~~~~~~~~~~~~~~~~~~~~~ SQL comment
