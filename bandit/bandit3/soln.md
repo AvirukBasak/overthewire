@@ -1,0 +1,3 @@
+```
+cat inhere/.hidden
+```
