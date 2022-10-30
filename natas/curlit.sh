@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$1" == "" ]; then
-    echo "curlit.sh: usage: curlit.sh uname:passwd level"
+    echo "curlit.sh: usage: curlit.sh level passwd"
     exit 1
 fi
-curl -q -u $1 http://natas$2.natas.labs.overthewire.org
+curl -q -u natas$1:$2 http://natas$1.natas.labs.overthewire.org
