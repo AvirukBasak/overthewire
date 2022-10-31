@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/echo Please source
 
-export natas9pass=$()
-echo $natas9pass
+export natas9pass=$(echo unsolved)
+echo natas9: $natas9pass
