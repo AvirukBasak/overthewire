@@ -1,4 +1,4 @@
 #!/bin/bash
 
-export natas8pass=$()
+export natas9pass=$()
 echo $natas9pass
