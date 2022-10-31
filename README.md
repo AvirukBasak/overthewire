@@ -1,8 +1,8 @@
 # overthewire
 Holds overthewire wargame CTF solutions.
 
-### Tools I wanna mention:
-- `tcpdump`
+### Tools I wanna mention
+- `cURL`
 - `netcat`
 - `nmap`
 - BurpSuite
