@@ -13,8 +13,8 @@ source ./natas10/soln.sh
 source ./natas11/soln.sh
 source ./natas12/soln.sh
 source ./natas13/soln.sh
-# source ./natas14/soln.sh
-# source ./natas15/soln.sh
+source ./natas14/soln.sh
+source ./natas15/soln.sh
 # source ./natas16/soln.sh
 # source ./natas17/soln.sh
 # source ./natas18/soln.sh
