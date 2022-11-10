@@ -36,7 +36,6 @@ def reset():
     f = open(bkp_path, 'wb')
     f.write(passwd.encode('ascii'))
     f.close()
-    bkp = open(bkp_path, 'wb')
     print('\rnatas16 pass reset')
 
 def exit_gracefully():
